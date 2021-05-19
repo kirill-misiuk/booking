@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:12.3
+    container_name: booking-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./init-development.sql:/docker-entrypoint-initdb.d/init.sql
+      - booking_pdata_volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - booking
+
+volumes:
+  booking_pdata_volume:
+    driver: local
+  booking_edata_volume:
+    driver: local
+
+networks:
+  booking:
+    name: booking-network
+    driver: bridge
