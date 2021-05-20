@@ -1,6 +1,8 @@
-import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString } from 'class-validator';
+
+import { BaseResponceDto } from './base.dto';
+import { ReservationResponceDto } from './reservation.dto';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -16,23 +18,20 @@ export class CreateUserDto {
   email: string;
 }
 
-export class UpdateUserDto {
+export class UserResponceDto extends BaseResponceDto {
   @ApiProperty()
   @IsString()
-  id: string;
+  firstName: string;
 
   @ApiProperty()
-  @Optional()
+
   @IsString()
-  firstName?: string;
+  lastName: string;
 
   @ApiProperty()
-  @Optional()
-  @IsString()
-  lastName?: string;
-
-  @ApiProperty()
-  @Optional()
   @IsEmail()
-  email?: string;
+  email: string;
+
+  @ApiProperty({ type: [ReservationResponceDto] })
+  reservation?: ReservationResponceDto[];
 }

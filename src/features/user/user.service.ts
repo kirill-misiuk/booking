@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { Connection, FindManyOptions, FindOneOptions } from 'typeorm/index';
+import { Connection, DeleteResult, FindManyOptions, FindOneOptions } from 'typeorm/index';
 
-import { UserEntity } from './user.entity';
+import { CreateUserDto, UserEntity } from '../../common';
 
 @Injectable()
 export class UserService {
   constructor(private readonly connection: Connection) {}
 
-  private readonly relations = [];
+  private readonly relations = ['reservation'];
 
-  create(data: any): Observable<UserEntity> {
+  create(data: CreateUserDto): Observable<UserEntity> {
     return from(this.connection.getRepository(UserEntity).save(data));
   }
 
@@ -25,13 +24,7 @@ export class UserService {
     return from(this.connection.getRepository(UserEntity).findOne(cond, options));
   }
 
-  update(id: string, update: Partial<UserEntity>): Observable<UserEntity> {
-    return from(this.connection.getRepository(UserEntity).update(id, update)).pipe(
-      mergeMap(() => this.findOne({ id })),
-    );
-  }
-
-  delete(id: string): Observable<any> {
+  delete(id: string): Observable<DeleteResult> {
     return from(this.connection.getRepository(UserEntity).delete(id));
   }
 }

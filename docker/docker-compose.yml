@@ -19,8 +19,6 @@ services:
 volumes:
   booking_pdata_volume:
     driver: local
-  booking_edata_volume:
-    driver: local
 
 networks:
   booking:

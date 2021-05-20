@@ -1,6 +1,6 @@
 export interface IBase {
   id?: string;
-  createdAt?: string;
-  deletedAt?: string;
-  updatedAt?: string
+  createdAt?: Date;
+  deletedAt?: Date;
+  updatedAt?: Date;
 }

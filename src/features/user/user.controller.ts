@@ -1,38 +1,39 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
-import { IUser } from 'src/common';
+import { IUser, UserResponceDto } from 'src/common';
+import { DeleteResult } from 'typeorm/index';
 
-import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { CreateUserDto } from '../../common';
 import { UserService } from './user.service';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {
   }
 
   @Get()
+  @ApiResponse({ status: 200, description: 'Get list of users' })
   getUsers(): Observable<IUser[]> {
-    return this.userService.find().pipe();
+    return this.userService.find();
   }
 
   @Get(':id')
-  getUser(@Param('id') id: string): Observable<IUser> {
+  @ApiResponse({ status: 200, description: 'Get user', type: UserResponceDto })
+  getUser(@Query('id') id: string): Observable<IUser> {
     return this.userService.findOne({ id });
   }
 
   @Post()
+  @ApiResponse({ status: 200, description: 'Create new user', type: UserResponceDto })
   createUser(@Body() body: CreateUserDto): Observable<IUser> {
     return this.userService.create(body);
   }
 
-  @Put()
-  updateUser(@Body() body: UpdateUserDto): Observable<IUser> {
-    const { id, ...data } = body;
-    return this.userService.update(id, data);
-  }
-
   @Delete(':id')
-  deleteUser(@Param('id') id: string): Observable<IUser> {
+  @ApiResponse({ status: 200, description: 'Delete exist user', type: UserResponceDto })
+  deleteUser(@Param('id') id: string): Observable<DeleteResult> {
     return this.userService.delete(id);
   }
 }

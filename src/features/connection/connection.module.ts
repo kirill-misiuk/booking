@@ -3,8 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 
-import { CommonModule } from '../../common';
-import { UserEntity } from '../user/user.entity';
+import {
+  BaseEntity,
+  CommonModule,
+  PropertyEntity,
+  ReservationEntity,
+  RoomEntity,
+  UserEntity,
+} from '../../common';
 
 @Module({
   imports: [
@@ -16,7 +22,14 @@ import { UserEntity } from '../user/user.entity';
         ...configService.get('db'),
         schema: 'booking-schema',
         migrations: [join(__dirname, '../../migrations/{.ts,*.js}')],
-        entities: [UserEntity],
+        entities: [
+          UserEntity,
+          PropertyEntity,
+          RoomEntity,
+          ReservationEntity,
+          BaseEntity,
+        ],
+        logging: 'all',
       }),
     }),
   ],

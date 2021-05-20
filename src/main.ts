@@ -3,8 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-import { ENVIRONMENT_VARIABLES } from './common';
-import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { ENVIRONMENT_VARIABLES, TransformInterceptor } from './common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
