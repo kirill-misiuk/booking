@@ -11,5 +11,6 @@ import { ReservationService } from './reservation.service';
   imports: [ConnectionModule, CommonModule, UserModule, RoomModule],
   providers: [ReservationService],
   controllers: [ReservationController],
+  exports: [ReservationService],
 })
 export class ReservationModule {}

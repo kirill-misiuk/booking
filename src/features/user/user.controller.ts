@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
-import { IUser, UserResponceDto } from 'src/common';
+import { IUser, UserResponseDto } from 'src/common';
 import { DeleteResult } from 'typeorm/index';
 
 import { CreateUserDto } from '../../common';
@@ -14,25 +14,29 @@ export class UserController {
   }
 
   @Get()
-  @ApiResponse({ status: 200, description: 'Get list of users' })
+  @ApiOperation({ summary: 'Get list of users' })
+  @ApiResponse({ status: 200, type: [UserResponseDto] })
   getUsers(): Observable<IUser[]> {
     return this.userService.find();
   }
 
   @Get(':id')
-  @ApiResponse({ status: 200, description: 'Get user', type: UserResponceDto })
+  @ApiOperation({ summary: 'Get user' })
+  @ApiResponse({ status: 200, type: UserResponseDto })
   getUser(@Query('id') id: string): Observable<IUser> {
     return this.userService.findOne({ id });
   }
 
   @Post()
-  @ApiResponse({ status: 200, description: 'Create new user', type: UserResponceDto })
+  @ApiOperation({ summary: 'Create new user' })
+  @ApiResponse({ status: 200, type: UserResponseDto })
   createUser(@Body() body: CreateUserDto): Observable<IUser> {
     return this.userService.create(body);
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 200, description: 'Delete exist user', type: UserResponceDto })
+  @ApiOperation({ summary: 'Delete exist user' })
+  @ApiResponse({ status: 200, type: UserResponseDto })
   deleteUser(@Param('id') id: string): Observable<DeleteResult> {
     return this.userService.delete(id);
   }

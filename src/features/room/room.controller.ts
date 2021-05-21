@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { DeleteResult } from 'typeorm/index';
 
-import { CreateRoomDto, FindRoomsDto, IRoom, RoomResponceDto } from '../../common';
+import { CreateRoomDto, DateRangeDto, IRoom, RoomResponseDto } from '../../common';
 import { RoomService } from './room.service';
 
 @ApiTags('room')
@@ -13,32 +13,36 @@ export class RoomController {
   }
 
   @Get()
-  @ApiResponse({ status: 200, description: 'Get list for empty rooms' })
+  @ApiOperation({ summary: 'Get list for rooms' })
+  @ApiResponse({ status: 200, type: [RoomResponseDto] })
   getRooms(): Observable<IRoom[]> {
     return this.roomService.find();
   }
 
   @Get(':id')
-  @ApiResponse({ status: 200, description: 'Get room', type: RoomResponceDto })
+  @ApiOperation({ summary: 'Get room' })
+  @ApiResponse({ status: 200, type: RoomResponseDto })
   getRoom(@Query('id') id: string): Observable<IRoom> {
     return this.roomService.findOne({ id });
   }
 
   @Post()
-  @ApiResponse({ status: 200, description: 'Create new room', type: RoomResponceDto })
+  @ApiOperation({ summary: 'Get room' })
+  @ApiResponse({ status: 201, type: RoomResponseDto })
   createRoom(@Body() body: CreateRoomDto): Observable<IRoom> {
     return this.roomService.create(body);
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 200, description: 'Delete exists room' })
+  @ApiOperation({ summary: 'Delete exists room' })
   deleteRoom(@Param('id') id: string): Observable<DeleteResult> {
     return this.roomService.delete(id);
   }
 
-  @Post('available')
-  @ApiResponse({ status: 200, description: 'find available rooms' })
-  findAvailableRooms(@Body() data: FindRoomsDto): Observable<any> {
+  @Get('available')
+  @ApiOperation({ summary: 'Find available rooms' })
+  @ApiResponse({ status: 200, type: RoomResponseDto })
+  findAvailableRooms(@Query() data: DateRangeDto): Observable<IRoom[]> {
     return this.roomService.findAvailableRooms(data);
   }
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { DeleteResult } from 'typeorm/index';
 
@@ -13,13 +13,14 @@ export class ReservationController {
   }
 
   @Post()
-  @ApiResponse({ status: 200, description: 'Creates room reservation', type: ReservationResponceDto })
+  @ApiOperation({ summary: 'Creates room reservation' })
+  @ApiResponse({ status: 201, type: ReservationResponceDto })
   createReservation(@Body() body: CreateReservationDto): Observable<IReservation> {
     return this.reservationService.create(body);
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 200, description: 'Delete  room reservation' })
+  @ApiOperation({summary: 'Delete  room reservation'})
   deleteReservation(@Param('id') id: string): Observable<DeleteResult> {
     return this.reservationService.delete(id);
   }

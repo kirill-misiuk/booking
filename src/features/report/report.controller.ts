@@ -1,15 +1,19 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Observable, of } from 'rxjs';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Observable } from 'rxjs';
 
-import { DateRangeDto } from '../../common/dto';
+import { DateRangeDto } from '../../common';
+import { ReportService } from './report.service';
 
+@ApiTags('report')
 @Controller('report')
 export class ReportController {
-  @ApiTags('report')
+  constructor(private readonly reportService: ReportService) {
+  }
   @Get()
-  @ApiResponse({ status: 200, description: 'Get statistic report' })
-  getReport(@Query('range') range: DateRangeDto): Observable<DateRangeDto> {
-    return of(range);
+  @ApiOperation({ summary: 'Get statistic report' })
+  @ApiResponse({ status: 200, description: 'Get statistic report', type: DateRangeDto })
+  getReport(@Query() range: DateRangeDto): Observable<any> {
+    return this.reportService.getReport(range);
   }
 }

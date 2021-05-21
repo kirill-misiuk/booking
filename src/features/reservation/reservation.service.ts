@@ -3,8 +3,7 @@ import { forkJoin, from, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Connection, DeleteResult, FindManyOptions } from 'typeorm/index';
 
-import { CreateReservationDto } from '../../common/dto';
-import { ReservationEntity } from '../../common/entities/reservation.entity';
+import { CreateReservationDto, DateRangeDto, ReservationEntity } from '../../common';
 import { RoomService } from '../room/room.service';
 import { UserService } from '../user/user.service';
 
@@ -43,5 +42,14 @@ export class ReservationService {
 
   delete(id: string): Observable<DeleteResult> {
     return from(this.connection.getRepository(ReservationEntity).delete(id));
+  }
+
+  findNotAvailableDateRanges(dateRange: DateRangeDto): Observable<any> {
+    const query = this.connection.getRepository(ReservationEntity).createQueryBuilder('reservation');
+    query.andWhere(`not reservation."startDate"::date <= :to::date OR reservation."endDate"::date > :from:: date`, {
+      from: new Date(dateRange.from).toUTCString(),
+      to: new Date(dateRange.to).toUTCString(),
+    });
+    return from(query.getMany());
   }
 }

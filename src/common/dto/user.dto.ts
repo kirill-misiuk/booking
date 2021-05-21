@@ -18,13 +18,12 @@ export class CreateUserDto {
   email: string;
 }
 
-export class UserResponceDto extends BaseResponceDto {
+export class UserResponseDto extends BaseResponceDto {
   @ApiProperty()
   @IsString()
   firstName: string;
 
   @ApiProperty()
-
   @IsString()
   lastName: string;
 
@@ -33,5 +32,5 @@ export class UserResponceDto extends BaseResponceDto {
   email: string;
 
   @ApiProperty({ type: [ReservationResponceDto] })
-  reservation?: ReservationResponceDto[];
+  reservation: ReservationResponceDto[];
 }

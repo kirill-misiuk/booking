@@ -3,8 +3,8 @@ import { IsDateString, IsOptional, IsString, IsUUID } from 'class-validator';
 
 import { BaseResponceDto } from './base.dto';
 import { DateRangeDto } from './date-range.dto';
-import { RoomResponceDto } from './room.dto';
-import { UserResponceDto } from './user.dto';
+import { RoomResponseDto } from './room.dto';
+import { UserResponseDto } from './user.dto';
 
 export class CreateReservationDto extends DateRangeDto {
   @ApiPropertyOptional()
@@ -27,11 +27,11 @@ export class ReservationResponceDto extends BaseResponceDto {
   @IsString()
   comment?: string;
 
-  @ApiProperty({ type: RoomResponceDto })
-  room: RoomResponceDto;
+  @ApiProperty({ type: RoomResponseDto })
+  room: RoomResponseDto;
 
-  @ApiProperty({ type: UserResponceDto })
-  user: UserResponceDto;
+  @ApiProperty({ type: UserResponseDto })
+  user: UserResponseDto;
 
   @ApiProperty()
   @IsDateString()

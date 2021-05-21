@@ -2,7 +2,6 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 import { BaseResponceDto } from './base.dto';
-import { DateRangeDto } from './date-range.dto';
 import { PropertyResponseDto } from './property.dto';
 
 export class CreateRoomDto {
@@ -20,7 +19,7 @@ export class CreateRoomDto {
   propertyId: string;
 }
 
-export class RoomResponceDto extends BaseResponceDto {
+export class RoomResponseDto extends BaseResponceDto {
   @ApiProperty()
   @IsString()
   title: string;
@@ -30,8 +29,7 @@ export class RoomResponceDto extends BaseResponceDto {
   @IsString()
   description?: string;
 
-  @ApiProperty({ type: PropertyResponseDto })
-  propertyId: PropertyResponseDto;
+  @ApiProperty({ type: [PropertyResponseDto] })
+  property: PropertyResponseDto[];
 }
 
-export class FindRoomsDto extends DateRangeDto {}

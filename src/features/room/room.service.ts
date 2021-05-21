@@ -3,7 +3,7 @@ import { from, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Connection, DeleteResult, FindManyOptions, FindOneOptions } from 'typeorm/index';
 
-import { CreateRoomDto, DateRangeDto, RoomEntity } from '../../common';
+import { CreateRoomDto, DateRangeDto, IRoom, RoomEntity } from '../../common';
 import { PropertyService } from '../property/property.service';
 
 @Injectable()
@@ -41,10 +41,9 @@ export class RoomService {
     return from(this.connection.getRepository(RoomEntity).delete(id));
   }
 
-  findAvailableRooms(dateRange: DateRangeDto): Observable<any> {
+  findAvailableRooms(dateRange: DateRangeDto): Observable<IRoom[]> {
     const query = this.connection.getRepository(RoomEntity).createQueryBuilder('room');
-    query.leftJoinAndSelect('room.reservation', 'reservation');
-    query.select()
+    query.leftJoinAndSelect('room.reservation', 'reservation')
       .andWhere(`reservation."startDate"::date > :to::date OR reservation."endDate"::date <= :from:: date`, {
         from: new Date(dateRange.from).toUTCString(),
         to: new Date(dateRange.to).toUTCString(),
