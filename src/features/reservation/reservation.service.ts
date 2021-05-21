@@ -22,14 +22,22 @@ export class ReservationService {
     return this.roomService.findAvailableRooms({ from: data.from, to: data.to }).pipe(
       mergeMap(rooms => {
         const roomIds = rooms.map(room => room.id);
-        if (roomIds.includes(data.roomId)) {
+        if (!roomIds.includes(data.roomId)) {
           throw new NotFoundException('room is not available');
         }
         return forkJoin({
           room: this.roomService.findOne({ id: data.roomId }),
           user: this.userService.findOne({ id: data.userId }),
         }).pipe(
-          mergeMap(({ room, user }) => from(this.connection.getRepository(ReservationEntity).save({ ...data, room, user }))),
+          mergeMap(({ room, user }) => from(this.connection.getRepository(ReservationEntity).save({
+            ...data,
+            startDate:
+            data.from,
+            endDate:
+            data.to,
+            room,
+            user,
+          }))),
         );
       }),
     );

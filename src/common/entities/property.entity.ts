@@ -16,7 +16,7 @@ export class PropertyEntity extends BaseEntity {
   address?: string;
 
   @Column({ type: 'enum', enum: PropertyType })
-  type: PropertyType;
+  propertyType: PropertyType;
 
   @OneToMany(() => RoomEntity, room => room.property, { cascade: true, onDelete: 'CASCADE' })
   rooms: RoomEntity[];

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, tap } from 'rxjs/operators';
 import { Connection, DeleteResult, FindManyOptions, FindOneOptions } from 'typeorm/index';
 
 import { CreateRoomDto, DateRangeDto, IRoom, RoomEntity } from '../../common';
@@ -44,10 +44,10 @@ export class RoomService {
   findAvailableRooms(dateRange: DateRangeDto): Observable<IRoom[]> {
     const query = this.connection.getRepository(RoomEntity).createQueryBuilder('room');
     query.leftJoinAndSelect('room.reservation', 'reservation')
-      .andWhere(`reservation."startDate"::date > :to::date OR reservation."endDate"::date <= :from:: date`, {
+      .andWhere(`reservation."startDate"::date > :to::date OR reservation."endDate"::date <= :from:: date OR reservation IS NULL`, {
         from: new Date(dateRange.from).toUTCString(),
         to: new Date(dateRange.to).toUTCString(),
       });
-    return from(query.getMany());
+    return from(query.getMany()).pipe(tap(console.log));
   }
 }

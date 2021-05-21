@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
-import { PropertyType } from '../index';
+import { PropertyType } from '../enums';
 import { BaseResponceDto } from './base.dto';
 
 export class CreatePropertyDto {
@@ -16,7 +16,7 @@ export class CreatePropertyDto {
 
   @ApiProperty({ type: 'enum', enum: PropertyType })
   @IsEnum(PropertyType)
-  type: PropertyType;
+  propertyType: PropertyType;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -41,5 +41,5 @@ export class PropertyResponseDto extends BaseResponceDto {
 
   @ApiProperty({ type: 'enum', enum: PropertyType })
   @IsEnum(PropertyType)
-  type: PropertyType;
+  propertyType: PropertyType;
 }

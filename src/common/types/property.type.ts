@@ -4,6 +4,6 @@ import { IBase } from './base.type';
 export interface IProperty extends IBase {
   title: string;
   description?: string;
-  type: PropertyType;
+  propertyType: PropertyType;
   address?: string;
 }
