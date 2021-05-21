@@ -13,7 +13,6 @@ export class PropertyController {
   }
 
   @Get()
-  @ApiResponse({ status: 200, type: [PropertyResponseDto] })
   @ApiOperation({ summary: 'Get list of properties' })
   getProperties(): Observable<IProperty[]> {
     return this.propertyService.find();

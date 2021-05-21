@@ -20,7 +20,7 @@ export class ReservationController {
   }
 
   @Delete(':id')
-  @ApiOperation({summary: 'Delete  room reservation'})
+  @ApiOperation({ summary: 'Delete  room reservation' })
   deleteReservation(@Param('id') id: string): Observable<DeleteResult> {
     return this.reservationService.delete(id);
   }

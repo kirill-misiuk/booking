@@ -15,7 +15,6 @@ export class UserController {
 
   @Get()
   @ApiOperation({ summary: 'Get list of users' })
-  @ApiResponse({ status: 200, type: [UserResponseDto] })
   getUsers(): Observable<IUser[]> {
     return this.userService.find();
   }

@@ -3,6 +3,7 @@ import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 import { BaseResponceDto } from './base.dto';
 import { PropertyResponseDto } from './property.dto';
+import { ReservationResponceDto } from './reservation.dto';
 
 export class CreateRoomDto {
   @ApiProperty()
@@ -29,7 +30,9 @@ export class RoomResponseDto extends BaseResponceDto {
   @IsString()
   description?: string;
 
-  @ApiProperty({ type: [PropertyResponseDto] })
-  property: PropertyResponseDto[];
-}
+  @ApiProperty({ type: PropertyResponseDto })
+  property: PropertyResponseDto;
 
+  @ApiProperty({ type: [ReservationResponceDto] })
+  reservation: ReservationResponceDto[];
+}

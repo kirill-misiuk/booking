@@ -10,6 +10,7 @@ import { ReportService } from './report.service';
 export class ReportController {
   constructor(private readonly reportService: ReportService) {
   }
+
   @Get()
   @ApiOperation({ summary: 'Get statistic report' })
   @ApiResponse({ status: 200, description: 'Get statistic report', type: DateRangeDto })

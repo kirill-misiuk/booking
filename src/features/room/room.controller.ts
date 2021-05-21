@@ -14,12 +14,11 @@ export class RoomController {
 
   @Get()
   @ApiOperation({ summary: 'Get list for rooms' })
-  @ApiResponse({ status: 200, type: [RoomResponseDto] })
   getRooms(): Observable<IRoom[]> {
     return this.roomService.find();
   }
 
-  @Get(':id')
+  @Get('get-room')
   @ApiOperation({ summary: 'Get room' })
   @ApiResponse({ status: 200, type: RoomResponseDto })
   getRoom(@Query('id') id: string): Observable<IRoom> {
@@ -28,7 +27,6 @@ export class RoomController {
 
   @Post()
   @ApiOperation({ summary: 'Get room' })
-  @ApiResponse({ status: 201, type: RoomResponseDto })
   createRoom(@Body() body: CreateRoomDto): Observable<IRoom> {
     return this.roomService.create(body);
   }
@@ -41,7 +39,6 @@ export class RoomController {
 
   @Get('available')
   @ApiOperation({ summary: 'Find available rooms' })
-  @ApiResponse({ status: 200, type: RoomResponseDto })
   findAvailableRooms(@Query() data: DateRangeDto): Observable<IRoom[]> {
     return this.roomService.findAvailableRooms(data);
   }
